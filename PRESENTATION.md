@@ -6,6 +6,8 @@ What I Built
 
 A full stack chatbot application that answers questions about Cape Town and the Western Cape. The app uses RAG (Retrieval Augmented Generation) to pull relevant info from a tourism guide before generating responses, making the answers more accurate and grounded in real data.
 
+https://www.wesgro.co.za/uploads/files/YOUR-GUIDE-TO-CAPE-TOWN-AND-THE-WESTERN-CAPE.pdf
+
 Key features:
     Real time streaming responses (text appears word by word like ChatGPT)
     Multiple chat conversations with history
