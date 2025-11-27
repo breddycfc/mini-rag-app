@@ -1,12 +1,8 @@
 Presentation Notes: Cape Town RAG Chat Application
-==================================================
-
-Developed by: Branden Reddy
-Project: Mini RAG App with LLM Streaming
 
 
 What I Built
-============
+
 
 A full stack chatbot application that answers questions about Cape Town and the Western Cape. The app uses RAG (Retrieval Augmented Generation) to pull relevant info from a tourism guide before generating responses, making the answers more accurate and grounded in real data.
 
@@ -19,7 +15,7 @@ Key features:
 
 
 Technology Stack and Why I Chose Each
-=====================================
+
 
 Backend: FastAPI (Python)
     Why: FastAPI handles async operations really well which is crucial for streaming. It also has built in support for Server Sent Events through StreamingResponse. Flask would have worked but async with Flask is messier. FastAPI also gives us automatic API documentation at /docs which is handy for testing.
@@ -44,7 +40,7 @@ Streaming: Server Sent Events (SSE)
 
 
 My Development Process
-======================
+
 
 Step 1: Project Setup
     Created the folder structure separating backend, frontend, and MCP server
@@ -106,7 +102,7 @@ Source Documents:
 
 
 Why Not a Traditional Database?
-===============================
+
 
 For this demo, JSON files made sense because:
 
@@ -122,7 +118,7 @@ For production I would use:
 
 
 Where I Used AI Assistance
-==========================
+
 
 I used AI tools to help with specific technical challenges:
 
@@ -138,7 +134,7 @@ I used AI tools to help with specific technical challenges:
 4. OpenAI API Integration
    Specifically the async client setup and streaming iteration.
 
-What I did myself:
+What I did myself (tbh not all by myself but mostly):
     Overall architecture and design decisions
     Component structure and state management
     File based storage system
@@ -147,45 +143,10 @@ What I did myself:
     MCP server implementation
 
 
-Potential Interview Questions and Answers
-=========================================
-
-Q: Why did you choose RAG over fine tuning?
-A: RAG is better for this use case because the data changes (tourism info updates). Fine tuning bakes knowledge into the model which requires retraining when info changes. RAG lets me just update the source documents. Also RAG is cheaper since I dont need to train anything.
-
-Q: How does your similarity search work?
-A: When a user asks a question, I embed their query using the same model I used for the documents. Then I calculate cosine similarity between the query embedding and all document embeddings. Cosine similarity measures the angle between vectors, where 1 means identical direction and 0 means perpendicular. I return the top 3 highest scoring chunks.
-
-Q: Why not use a vector database?
-A: For under 100 documents, loading embeddings into memory and using numpy is fast enough (under 50ms for search). A vector database adds deployment complexity. If the dataset grew to thousands of documents, Id switch to FAISS for local or Pinecone for hosted.
-
-Q: How do you handle conversation context?
-A: I include the last 10 messages from the conversation in each API call. This gives the model enough context to understand follow up questions. I trim to 10 to stay within token limits and keep response times fast.
-
-Q: What happens if the OpenAI API is slow or fails?
-A: The frontend shows a loading state while waiting. If the API fails, I catch the exception and return an error message to the user. For production I would add retry logic with exponential backoff.
-
-Q: Why Server Sent Events instead of WebSockets?
-A: SSE is simpler for one way communication. I only need server to client streaming. WebSockets would require more setup (connection handling, heartbeats, reconnection logic) for no benefit. SSE handles reconnection automatically.
-
-Q: How would you scale this for multiple users?
-A: Currently chats are stored in the filesystem which doesnt scale. Id move to a database (PostgreSQL) and add user authentication. The RAG index could stay in memory since its read only, or move to a vector database. Id also add rate limiting to prevent API abuse.
-
-Q: Explain the chunking strategy.
-A: I split the source text into chunks of about 500 words with 50 word overlap. The overlap ensures that if important context spans a chunk boundary, it appears in both chunks. 500 words is small enough to be specific but large enough to contain useful context.
-
-Q: What is MCP and why did you include it?
-A: MCP (Model Context Protocol) is a standard for giving LLMs access to external tools. I implemented a simple time service as an example. When the user asks about the current time, the backend calls the MCP server to get accurate info instead of relying on the models training data which could be outdated.
-
-Q: How does the streaming work technically?
-A: The backend uses an async generator that yields events as OpenAI returns tokens. Each token is wrapped in SSE format (data: {...}\n\n) and sent immediately. The frontend reads the stream using fetch with getReader(), parses each event, and updates the UI. React re renders on each state update so text appears progressively.
-
-Q: What would you add given more time?
-A: User authentication, ability to upload custom documents, better error handling with retry logic, conversation summarization for long chats, and proper test coverage. Maybe also a nicer UI with markdown rendering for responses.
 
 
 Code Walkthrough
-================
+
 
 Backend Structure:
 
@@ -233,7 +194,7 @@ ChatWindow.jsx
 
 
 Running Locally
-===============
+
 
 Terminal 1 (Backend):
     cd backend
@@ -253,8 +214,8 @@ Terminal 3 (MCP Server, optional):
 Then open http://localhost:5173
 
 
-Final Thoughts
-==============
+
+
 
 This project demonstrates a working full stack AI application with:
     Clean separation between frontend and backend
