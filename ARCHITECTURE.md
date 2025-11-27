@@ -1,11 +1,10 @@
 Architecture Notes
-==================
+
 
 Notes on the design decisions and how everything fits together.
 
 
 Overview
-========
 
 Three main pieces:
 
@@ -15,7 +14,7 @@ Three main pieces:
 
 
 Backend
-=======
+
 
 Why FastAPI?
 
@@ -23,7 +22,7 @@ Picked FastAPI over Flask because of the async support. When you're streaming re
 
 
 How Chat Messages Flow Through
-==============================
+
 
 When a message comes in this is roughly what happens:
 
@@ -36,7 +35,7 @@ When a message comes in this is roughly what happens:
 
 
 How RAG Works
-=============
+
 
 Kept it fairly simple. Source data is from the Wesgro Cape Town tourism guide.
 
@@ -56,7 +55,6 @@ Thought about using FAISS but honestly for under 100 chunks numpy is fast enough
 
 
 Storing Chats
-=============
 
 Each chat is its own JSON file in the data/chats folder. File contains:
 
@@ -69,8 +67,6 @@ JSON files work fine for a demo. Easy to inspect, easy to debug. Production app 
 
 
 Streaming Setup
-===============
-
 Went with Server Sent Events. The flow:
 
 1. Frontend POSTs to /api/chat
@@ -82,10 +78,8 @@ SSE made more sense than WebSockets here. Only need server to client communicati
 
 
 Frontend
-========
 
 Component Structure
-===================
 
 Three components doing most of the work:
 
@@ -97,19 +91,17 @@ State lives in App and passes down through props. App is small enough that Redux
 
 
 Handling the Stream
-===================
 
 Frontend uses Fetch API with ReadableStream to process the SSE response. Read chunks as they arrive, parse out the SSE format, update state with new content. Had to handle buffering carefully since chunks dont always line up with message boundaries.
 
 
 Styling
-=======
+
 
 Just plain CSS. Dark colour scheme. Flexbox layout with fixed width sidebar and the chat area filling the rest.
 
 
 MCP Server
-==========
 
 Separate FastAPI app on port 5001. Two tools available:
 
@@ -122,7 +114,7 @@ Kept it separate to demonstrate the concept of having external tool servers the 
 
 
 Limitations and Tradeoffs
-=========================
+
 
 No auth: Demo app, skipped it entirely. Real thing would need it.
 
@@ -136,9 +128,8 @@ Minimal error handling: Happy path works, edge cases might be rough.
 
 
 Given More Time
-===============
 
-Would probably:
+Would probably, not limited:
     Try sentence based chunking instead of word count
     Auto generate better chat titles from the conversation
     Add proper loading and error states in the UI
