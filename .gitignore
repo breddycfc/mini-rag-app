@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+node_modules/
+.DS_Store
+*.log
+
+# API keys and secrets (never commit these)
+.env
+.env.local
+.env.production
+backend/.env
+
+# User data
+backend/data/chats/*.json
+backend/data/embeddings/index.json
