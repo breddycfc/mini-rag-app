@@ -5,6 +5,7 @@ A chatbot that answers questions about Cape Town and the Western Cape using RAG 
 
 Developed by: Branden Reddy
 
+https://www.wesgro.co.za/uploads/files/YOUR-GUIDE-TO-CAPE-TOWN-AND-THE-WESTERN-CAPE.pdf
 
 What This App Does
 ==================
